@@ -1,0 +1,313 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:behavior="clr-namespace:SmokeNote.Client.Behaviors"
+        xmlns:controls="clr-namespace:SmokeNote.Client.Controls"
+        xmlns:taskbar="http://www.hardcodet.net/taskbar"
+        xmlns:shell="http://schemas.microsoft.com/winfx/2006/xaml/presentation/shell"
+        xmlns:views="clr-namespace:SmokeNote.Client.Views"
+        xmlns:ViewModels="clr-namespace:SmokeNote.Client.ViewModels" x:Class="SmokeNote.Client.Shell"
+        Name="window" ShowInTaskbar="True"
+        Title="烟灰灰日记本" FontFamily="宋体" DataContext="{DynamicResource ShellViewModel}" MinHeight="300" MinWidth="600" Style="{DynamicResource NormalWindowStyle}">
+    <i:Interaction.Behaviors>
+        <behavior:AlwaysShowInTaskbarBehavior/>
+    </i:Interaction.Behaviors>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadCommand}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Closed">
+            <i:InvokeCommandAction Command="{Binding CloseCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Window.Tag>
+        <Menu Style="{DynamicResource WindowMenuStyle}">
+            <MenuItem Header="菜单">
+                <MenuItem Header="设置" Name="miConfig" Click="miConfig_Click"/>
+                <Separator Style="{StaticResource DefaultSeparatorStyle}"/>
+                <MenuItem Header="帮助"/>
+                <MenuItem Header="退出" Name="miExit" Click="miExit_Click"/>
+            </MenuItem>
+            <MenuItem Header="视图">
+                <MenuItem Header="笔记显示方式">
+                    
+                </MenuItem>
+                <Separator Style="{StaticResource DefaultSeparatorStyle}"/>
+                <MenuItem Header="左侧面板" IsCheckable="True" IsChecked="{Binding UISettings.ShowLeftPanel}"/>
+                <MenuItem Header="笔记列表面板" IsCheckable="True" IsChecked="{Binding UISettings.ShowArticleListPanel}"/>
+                <MenuItem Header="搜索说明" IsCheckable="True" IsChecked="{Binding UISettings.ShowSearchDescription}"/>
+                <MenuItem Header="笔记属性" IsCheckable="True" IsChecked="{Binding UISettings.ShowArticleProperties}"/>
+                <MenuItem Header="笔记编辑工具条" IsCheckable="True" IsChecked="{Binding UISettings.ShowArticleEditToolbar}"/>
+            </MenuItem>
+        </Menu>
+    </Window.Tag>
+    <Window.Resources>
+        <ViewModels:ShellViewModel x:Key="ShellViewModel"/>
+
+        <ContextMenu x:Key="NoteBookItemContextMenu">
+            <MenuItem Header="新建笔记本" Command="{Binding AddNotebookCommand, Source={StaticResource ShellViewModel}}"/>
+            <MenuItem Header="删除" Command="{Binding NotebookListViewModel.DeleteNotebookCommand, Source={StaticResource ShellViewModel}}" CommandParameter="{Binding}" IsEnabled="{Binding IsDefault, Converter={StaticResource OppositeConverter}}"/>
+            <Separator Style="{StaticResource DefaultSeparatorStyle}"/>
+            <MenuItem IsEnabled="False" Header="分享链接"/>
+            <MenuItem IsEnabled="False" Header="分享笔记"/>
+            <Separator Style="{StaticResource DefaultSeparatorStyle}"/>
+            <MenuItem Header="属性" Command="{Binding NotebookListViewModel.EditNotebookCommand, Source={StaticResource ShellViewModel}}" CommandParameter="{Binding}"/>
+        </ContextMenu>
+        
+        <ContextMenu x:Key="RecycleContextMenu">
+            <MenuItem Header="清空回收站" Command="{Binding NoteListViewModel.ClearRecycleCommand, Source={StaticResource ShellViewModel}}"/>
+        </ContextMenu>
+
+        <Style TargetType="MenuItem" x:Key="MoveToMenuItemContainerStyle" BasedOn="{StaticResource {x:Type MenuItem}}">
+            <Setter Property="Header" Value="{Binding Notebook.Name}"/>
+            <Setter Property="Command" Value="{Binding NoteListViewModel.MoveCommand, Source={StaticResource ShellViewModel}}"/>
+            <Setter Property="CommandParameter" Value="{Binding Notebook}"/>
+        </Style>
+        
+        <ContextMenu x:Key="NormalNoteItemContextMenu">
+            <MenuItem Header="新建笔记" Command="{Binding NoteListViewModel.AddNoteCommand, Source={StaticResource ShellViewModel}}"/>
+            <Separator Style="{StaticResource DefaultSeparatorStyle}"/>
+            <MenuItem Header="打印"/>
+            <MenuItem Header="删除" Command="{Binding NoteListViewModel.DeleteNoteCommand, Source={StaticResource ShellViewModel}}"/>
+            <MenuItem Header="移动到" ItemsSource="{Binding NotebookListViewModel.NotebookList, Source={StaticResource ShellViewModel}}" ItemContainerStyle="{StaticResource MoveToMenuItemContainerStyle}"></MenuItem>
+            <MenuItem Header="导出">
+                <MenuItem Header="记事本" Command="{Binding ExportCommand}" CommandParameter="0"/>
+                <MenuItem Header="Word" Command="{Binding ExportCommand}" CommandParameter="1"/>
+                <MenuItem Header="Html" Command="{Binding ExportCommand}" CommandParameter="2"/>
+            </MenuItem>
+            <Separator Style="{StaticResource DefaultSeparatorStyle}"/>
+            <MenuItem Header="分享链接"/>
+            <MenuItem Header="分享笔记"/>
+            <MenuItem Header="发送邮件"/>
+            <MenuItem Header="历史版本" Command="{Binding ShowNoteHistoryCommand}"/>
+        </ContextMenu>
+        
+        <ContextMenu x:Key="RecycleNoteItemContextMenu">
+            <MenuItem Header="打印"/>
+            <MenuItem Header="删除" Command="{Binding NoteListViewModel.DeleteNoteCommand, Source={StaticResource ShellViewModel}}"/>
+            <MenuItem Header="恢复" Command="{Binding NoteListViewModel.RestoreNoteCommand, Source={StaticResource ShellViewModel}}"/>
+            <MenuItem Header="移动到" ItemsSource="{Binding NotebookListViewModel.NotebookList, Source={StaticResource ShellViewModel}}" ItemContainerStyle="{StaticResource MoveToMenuItemContainerStyle}"></MenuItem>
+            <MenuItem Header="全部恢复" Command="{Binding NoteListViewModel.RestoreAllNoteCommand, Source={StaticResource ShellViewModel}}"/>
+            <MenuItem Header="清空回收站" Command="{Binding NoteListViewModel.ClearRecycleCommand, Source={StaticResource ShellViewModel}}"/>
+        </ContextMenu>
+
+        <DataTemplate x:Key="ArticleSummaryItemTemplate">
+            <Grid Margin="10" VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock FontSize="14" HorizontalAlignment="Left" Text="{Binding Title}"></TextBlock>
+                <TextBlock LineHeight="20" Height="60" Margin="0,2,0,0" HorizontalAlignment="Left" TextWrapping="Wrap" Grid.Row="1">
+                    <Run Text="{Binding Note.ModifyDate, StringFormat=yyyy/MM/dd}" Foreground="#FF264D66"/>
+                    <Run Text=" "/>
+                    <Run Text="{Binding Summary, Mode=OneWay}"/>
+                </TextBlock>
+                <controls:LoadingButton IsLoading="{Binding IsLoading}" Command="{Binding SaveCommand}" Style="{StaticResource SaveButton}" Grid.Row="1" Visibility="{Binding IsModified, Converter={StaticResource BooleanToVisibilityConverter}}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,0"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ArticleListItemTemplate">
+            <Grid Margin="10,5,10,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Title}" VerticalAlignment="Center"></TextBlock>
+                <TextBlock Margin="10,0,0,0" Grid.Column="1" Text="{Binding Note.ModifyDate, StringFormat=MM-dd}" Foreground="#FF264D66" VerticalAlignment="Center"></TextBlock>
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border BorderBrush="{StaticResource DefaultBorderBrush}" BorderThickness="0,0,0,1" Background="#FFFCFCFC">
+            <Menu Style="{StaticResource TopMenuStyle}">
+                <controls:TopMenuItem Header="新建笔记"
+                        IconHoverSource="/SmokeNote.Client;component/Assets/Images/Menu/TopMenu/New_Hover.png" IconDisabledSource="/SmokeNote.Client;component/Assets/Images/Menu/TopMenu/New_Disabled.png" IconPressedSource="/SmokeNote.Client;component/Assets/Images/Menu/TopMenu/New_Pressed.png" IconSource="/SmokeNote.Client;component/Assets/Images/Menu/TopMenu/New.png">
+                    <MenuItem Header="新建笔记" Command="{Binding NoteListViewModel.AddNoteCommand, Source={StaticResource ShellViewModel}}"/>
+                    <MenuItem Header="新建笔记本" Command="{Binding AddNotebookCommand, Source={StaticResource ShellViewModel}}"/>
+                </controls:TopMenuItem>
+                <controls:TopMenuItem Header="全部保存" Command="{Binding NoteListViewModel.SaveAllCommand}"
+                        IconHoverSource="/SmokeNote.Client;component/Assets/Images/Menu/TopMenu/Sync_Hover.png" IconDisabledSource="/SmokeNote.Client;component/Assets/Images/Menu/TopMenu/Sync_Disabled.png" IconPressedSource="/SmokeNote.Client;component/Assets/Images/Menu/TopMenu/Sync_Pressed.png" IconSource="/SmokeNote.Client;component/Assets/Images/Menu/TopMenu/Sync.png"/>
+                <controls:TopMenuItem Header="删除" Command="{Binding NoteListViewModel.DeleteNoteCommand, Source={StaticResource ShellViewModel}}"
+                        IconHoverSource="/SmokeNote.Client;component/Assets/Images/Menu/TopMenu/Delete_Hover.png" IconDisabledSource="/SmokeNote.Client;component/Assets/Images/Menu/TopMenu/Delete_Disabled.png" IconPressedSource="/SmokeNote.Client;component/Assets/Images/Menu/TopMenu/Delete_Pressed.png" IconSource="/SmokeNote.Client;component/Assets/Images/Menu/TopMenu/Delete.png"/>
+                <controls:TopMenuItem Header="打印"
+                        IconHoverSource="/SmokeNote.Client;component/Assets/Images/Menu/TopMenu/Print_Hover.png" IconDisabledSource="/SmokeNote.Client;component/Assets/Images/Menu/TopMenu/Print_Disabled.png" IconPressedSource="/SmokeNote.Client;component/Assets/Images/Menu/TopMenu/Print_Pressed.png" IconSource="/SmokeNote.Client;component/Assets/Images/Menu/TopMenu/Print.png"/>
+                <controls:TopMenuItem Header="分享"
+                        IconHoverSource="/SmokeNote.Client;component/Assets/Images/Menu/TopMenu/Share_Hover.png" IconDisabledSource="/SmokeNote.Client;component/Assets/Images/Menu/TopMenu/Share_Disabled.png" IconPressedSource="/SmokeNote.Client;component/Assets/Images/Menu/TopMenu/Share_Pressed.png" IconSource="/SmokeNote.Client;component/Assets/Images/Menu/TopMenu/Share.png">
+                    <MenuItem Header="分享笔记"/>
+                    <MenuItem Header="分享链接"/>
+                    <MenuItem Header="发送邮件"/>
+                    <MenuItem Header="发送到微博">
+                        <MenuItem Header="腾讯微博"/>
+                        <MenuItem Header="新浪微博"/>
+                        <MenuItem Header="网易微博"/>
+                    </MenuItem>
+                </controls:TopMenuItem>
+                <controls:TopMenuItem Header="使用量" x:Name="miTotal" Click="miTotal_Click"
+                        IconHoverSource="/SmokeNote.Client;component/Assets/Images/Menu/TopMenu/Count_Hover.png" IconDisabledSource="/SmokeNote.Client;component/Assets/Images/Menu/TopMenu/Count_Disabled.png" IconPressedSource="/SmokeNote.Client;component/Assets/Images/Menu/TopMenu/Count_Pressed.png" IconSource="/SmokeNote.Client;component/Assets/Images/Menu/TopMenu/Count.png"/>
+            </Menu>
+        </Border>
+
+        <Grid x:Name="grdMain" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200" MinWidth="200"/>
+                <ColumnDefinition Width="300" MinWidth="300"/>
+                <ColumnDefinition Width="*" MinWidth="100"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid x:Name="grdLeft" Visibility="{Binding UISettings.ShowLeftPanel, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Rectangle Fill="{DynamicResource DefaultBorderBrush}"/>
+                <Rectangle Fill="#FFEEEFF1" Margin="1,0,0,1"/>
+                <Rectangle Width="5" HorizontalAlignment="Left" Fill="#FF3790CF" Margin="0,0,1,1"/>
+                <TextBlock Text="笔记" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20,0,0,0"/>
+
+                <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="2">
+                        <TreeView Name="tvNotebookList" SelectedItemChanged="tvNotebookList_SelectedItemChanged">
+                            <TreeViewItem ItemsSource="{Binding NotebookListViewModel.NotebookList}" Style="{StaticResource NotebookTreeViewItemStyle}" IsExpanded="True" IsSelected="True" PreviewMouseRightButtonDown="TreeViewItem_PreviewMouseRightButtonDown">
+                                <TreeViewItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="我的笔记本"/>
+                                        <TextBlock Margin="5,0,0,0" Text="{Binding NotebookListViewModel.Notes, StringFormat=({0})}"/>
+                                    </StackPanel>
+                                </TreeViewItem.Header>
+                                <TreeViewItem.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                            <Image Source="/SmokeNote.Client;component/Assets/Images/Notebook_Local.png"/>
+                                            <TextBlock Text="{Binding Notebook.Name}" Margin="2,0,0,0"/>
+                                            <TextBlock Text="{Binding Notes, StringFormat=({0})}" Margin="2,0,0,0"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </TreeViewItem.ItemTemplate>
+                                <TreeViewItem.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="新建笔记本" Command="{Binding AddNotebookCommand, Source={StaticResource ShellViewModel}}"/>
+                                    </ContextMenu>
+                                </TreeViewItem.ContextMenu>
+                                <TreeViewItem.ItemContainerStyle>                                    
+                                    <Style TargetType="TreeViewItem" BasedOn="{StaticResource NotebookTreeViewItemStyle}">
+                                        <EventSetter Event="PreviewMouseRightButtonDown" Handler="TreeViewItem_PreviewMouseRightButtonDown"/>
+                                        <Setter Property="ContextMenu" Value="{StaticResource NoteBookItemContextMenu}"></Setter>
+                                    </Style>
+                                </TreeViewItem.ItemContainerStyle>
+                            </TreeViewItem>
+                        </TreeView>
+                        <TreeView>
+                            <TreeViewItem Header="按时间选择">
+                                <TreeViewItem Header="按创建时间">
+                                    <TreeViewItem Header="今天"/>
+                                    <TreeViewItem Header="本周"/>
+                                    <TreeViewItem Header="本月"/>
+                                    <TreeViewItem Header="本年"/>
+                                    <TreeViewItem Name="tviCustomCreateDate">
+                                        <TreeViewItem.Header>
+                                            <StackPanel>
+                                                <TextBlock Text="自定义时间段"/>
+                                                <Button Content="哈哈" Visibility="{Binding IsSelected, ElementName=tviCustomCreateDate, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                            </StackPanel>
+                                        </TreeViewItem.Header>
+                                    </TreeViewItem>
+                                </TreeViewItem>
+                                <TreeViewItem Header="按修改时间">
+                                    <TreeViewItem Header="今天"/>
+                                    <TreeViewItem Header="本周"/>
+                                    <TreeViewItem Header="本月"/>
+                                    <TreeViewItem Header="本年"/>
+                                    <TreeViewItem Header="自定义时间段"/>
+                                </TreeViewItem>
+                            </TreeViewItem>
+                        </TreeView>
+                        <TreeView Name="tvRecycle" SelectedItemChanged="tvRecycle_SelectedItemChanged">
+                            <TreeViewItem ContextMenu="{StaticResource RecycleContextMenu}" Style="{StaticResource NotebookTreeViewItemStyle}" PreviewMouseRightButtonDown="TreeViewItem_PreviewMouseRightButtonDown">
+                                <TreeViewItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="回收站"/>
+                                        <TextBlock Margin="5,0,0,0" Text="{Binding NotebookListViewModel.RecycleNotes, StringFormat=({0})}"/>
+                                    </StackPanel>
+                                </TreeViewItem.Header>
+                            </TreeViewItem>
+                        </TreeView>
+                    </StackPanel>
+                </ScrollViewer>
+
+            </Grid>
+            <GridSplitter BorderThickness="1" BorderBrush="{StaticResource DefaultBorderBrush}" Width="1" Grid.RowSpan="2" HorizontalAlignment="Right" Visibility="{Binding UISettings.ShowLeftPanel, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+            <Grid x:Name="grdMiddle" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>                
+                
+                <Grid Height="35">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox Name="tbSearchKeywords" Style="{StaticResource SearchTextBox}" Grid.Column="1" Text="{Binding NoteListViewModel.QueryCondition.Keywords}">
+                        <i:Interaction.Behaviors>
+                            <behavior:TextBoxDelayBehavior/>
+                        </i:Interaction.Behaviors>
+                    </TextBox>
+                    <Button Grid.Column="1" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource DeleteKeywordsButton}" Visibility="{Binding NoteListViewModel.QueryCondition.Keywords, Converter={StaticResource NotNullToVisibilityConverter}}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <ei:CallMethodAction TargetObject="{Binding ElementName=tbSearchKeywords}" MethodName="Clear"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                    <Button Style="{StaticResource SearchButton}" Grid.Column="2"/>
+                    <Rectangle Fill="{StaticResource DefaultBorderBrush}" VerticalAlignment="Bottom" Height="1" Grid.ColumnSpan="3"/>
+                </Grid>
+                
+                <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+
+                    <TextBlock Text="没有找到笔记" Opacity="0.5" HorizontalAlignment="Center"/>
+                    <Button Margin="0,10,0,0" Content="新建笔记" Style="{StaticResource SubmitButton}" Command="{Binding NoteListViewModel.AddNoteCommand}"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+
+                    <TextBlock Text="搜索无结果" Opacity="0.5" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+            <GridSplitter BorderThickness="1" BorderBrush="{StaticResource DefaultBorderBrush}" Width="1" Grid.RowSpan="2" Grid.Column="1" HorizontalAlignment="Right"/>
+
+            <Grid x:Name="grdRight" Grid.Column="2">
+                <!--<views:NoteEditor DataContext="{Binding NoteListViewModel.NoteList.CurrentItem}"/>-->
+            </Grid>
+        </Grid>
+
+        <controls:NotifyControl x:Name="notifyControl" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,20"/>
+
+        <!--<taskbar:TaskbarIcon Name="taskbarIcon" IconSource="/SmokeNote.Client;component/SmokeNote.ico" TrayMouseDoubleClick="miShowWindow_Click">
+            <taskbar:TaskbarIcon.ContextMenu>
+                <ContextMenu Style="{x:Null}">
+                    <MenuItem Name="miShowWindow" Click="miShowWindow_Click" Header="显示窗口"/>
+                    <MenuItem Name="miTopMost" Header="总在最前" IsCheckable="True"/>
+                    <MenuItem Header="设置" Click="miConfig_Click"/>
+                    <Separator Style="{StaticResource DefaultSeparatorStyle}"/>
+                    <MenuItem Header="锁定窗口"/>
+                    <MenuItem Click="miExit_Click" Header="退出"/>
+                </ContextMenu>
+            </taskbar:TaskbarIcon.ContextMenu>
+        </taskbar:TaskbarIcon>-->
+    </Grid>
+</Window>

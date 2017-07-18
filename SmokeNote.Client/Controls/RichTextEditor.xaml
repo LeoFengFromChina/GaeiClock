@@ -1,0 +1,113 @@
+﻿<UserControl x:Class="SmokeNote.Client.Controls.RichTextEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:behavior="clr-namespace:SmokeNote.Client.Behaviors"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:xceed="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:model="clr-namespace:SmokeNote.Logic.Models;assembly=SmokeNote.Logic"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" Name="userControl"
+             d:DesignHeight="300" d:DesignWidth="700">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <ToolBar Name="toolbar" IsVisibleChanged="rtbContent_IsVisibleChanged" Padding="2,0,2,0" Background="{StaticResource WindowContentBackground}" Height="35" VerticalContentAlignment="Center">
+            <ComboBox Name="cbxFontFamily" SelectedIndex="0" Style="{StaticResource {x:Type ComboBox}}" Width="80">
+                <ComboBox.ItemsSource>
+                    <model:FontFamilyList/>
+                </ComboBox.ItemsSource>
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontFamily="{Binding}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <ComboBox Name="cbxFontSize" SelectedIndex="2" Style="{StaticResource {x:Type ComboBox}}" Width="70">
+                <ComboBox.ItemsSource>
+                    <model:FontSizeList/>
+                </ComboBox.ItemsSource>
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid MinHeight="30">
+                            <TextBlock VerticalAlignment="Center" Text="{Binding StringFormat=\{0\}px}" FontSize="{Binding}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <ToggleButton Name="tbBold" Style="{StaticResource BoldButton}"></ToggleButton>
+
+            <ToggleButton Name="tbItalic" Style="{StaticResource ItalicButton}"></ToggleButton>
+
+            <ToggleButton Name="tbUnderline" Style="{StaticResource UnderlineButton}"></ToggleButton>
+
+            <Separator Style="{StaticResource EditorSeparator}"/>
+            
+            <ToggleButton Checked="tbAlignLeft_Checked" Name="tbAlignLeft" Style="{StaticResource AlignLeftButton}"></ToggleButton>
+
+            <ToggleButton Checked="tbAlignCenter_Checked" Name="tbAlignCenter" Style="{StaticResource AlignCenterButton}"></ToggleButton>
+
+            <ToggleButton Checked="tbAlignRight_Checked" Name="tbAlignRight" Style="{StaticResource AlignRightButton}"></ToggleButton>
+
+            <Separator Style="{StaticResource EditorSeparator}"/>
+            
+            <ToggleButton Name="tbIncreaseIndent" Style="{StaticResource IncreaseIndentButton}">
+                <i:Interaction.Behaviors>
+                    <behavior:NoCheckableToggleButtonBehavior/>
+                </i:Interaction.Behaviors>
+            </ToggleButton>
+            
+            <ToggleButton Name="tbDecreaseIndent" Style="{StaticResource DecreaseIndentButton}">
+                <i:Interaction.Behaviors>
+                    <behavior:NoCheckableToggleButtonBehavior/>
+                </i:Interaction.Behaviors>
+            </ToggleButton>
+            
+            <ToggleButton Name="tbBulletList" Style="{StaticResource BulletListButton}">
+                <i:Interaction.Behaviors>
+                    <behavior:NoCheckableToggleButtonBehavior/>
+                </i:Interaction.Behaviors>
+            </ToggleButton>
+
+            <ToggleButton Name="tbNumericList" Style="{StaticResource NumericListButton}">
+                <i:Interaction.Behaviors>
+                    <behavior:NoCheckableToggleButtonBehavior/>
+                </i:Interaction.Behaviors>
+            </ToggleButton>
+
+            <Separator Style="{StaticResource EditorSeparator}"/>
+            
+            <ToggleButton Name="tbHyperlink" Click="tbHyperlink_Click" Style="{StaticResource HyperlinkButton}">
+                <i:Interaction.Behaviors>
+                    <behavior:NoCheckableToggleButtonBehavior/>
+                </i:Interaction.Behaviors>
+            </ToggleButton>
+
+            <Separator Style="{StaticResource EditorSeparator}"/>
+
+            <ToggleButton Name="tbUndo" Style="{StaticResource UndoButton}">
+                <i:Interaction.Behaviors>
+                    <behavior:NoCheckableToggleButtonBehavior/>
+                </i:Interaction.Behaviors>
+            </ToggleButton>
+            
+            <ToggleButton Name="tbRedo" Style="{StaticResource RedoButton}">
+                <i:Interaction.Behaviors>
+                    <behavior:NoCheckableToggleButtonBehavior/>
+                </i:Interaction.Behaviors>
+            </ToggleButton>
+        </ToolBar>
+
+        <xceed:RichTextBox AcceptsTab="True" AcceptsReturn="True" KeyDown="rtbContent_KeyDown" SelectionChanged="rtbContent_SelectionChanged" Text="{Binding Text, ElementName=userControl, Mode=TwoWay}" Name="rtbContent" Grid.Row="1">
+            <xceed:RichTextBox.TextFormatter>
+                <xceed:RtfFormatter/>
+            </xceed:RichTextBox.TextFormatter>
+        </xceed:RichTextBox>
+    </Grid>
+</UserControl>

@@ -1,0 +1,158 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
+                    xmlns:xceed="http://schemas.xceed.com/wpf/xaml/toolkit"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ControlTemplate x:Key="DefaultTextBoxTemplate" TargetType="{x:Type TextBoxBase}">
+        <Themes:ListBoxChrome BorderThickness="{TemplateBinding BorderThickness}" x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" RenderMouseOver="False" RenderFocused="False" SnapsToDevicePixels="true">
+            <ScrollViewer Margin="{TemplateBinding Padding}" x:Name="PART_ContentHost" Background="{x:Null}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+        </Themes:ListBoxChrome>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <!--<Setter TargetName="Bd" Property="Background" Value="#FFF4F4F3"/>-->
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    
+    <Style TargetType="TextBox">
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource DefaultBorderBrush}"/>
+        <Setter Property="AllowDrop" Value="true"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Template" Value="{StaticResource DefaultTextBoxTemplate}"></Setter>
+    </Style>
+
+    <Style TargetType="xceed:WatermarkTextBox" x:Key="LikeLabelTextBox" BasedOn="{StaticResource {x:Type xceed:WatermarkTextBox}}">
+        <Setter Property="Padding" Value="2,0,2,0"/>
+        <Setter Property="Height" Value="25"/>
+        <Setter Property="Focusable" Value="True"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type xceed:WatermarkTextBox}">
+                    <Themes:ListBoxChrome BorderThickness="{TemplateBinding BorderThickness}" x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" RenderMouseOver="False" RenderFocused="False" SnapsToDevicePixels="true">
+                        <Grid>
+                            <Border x:Name="Border" BorderThickness="0" CornerRadius="1" Background="{TemplateBinding Background}" />
+                            <Border x:Name="MouseOverVisual" Opacity="0" BorderThickness="0" CornerRadius="1" />
+                            <Border x:Name="FocusVisual" Opacity="0" BorderThickness="0" CornerRadius="1" />
+                            <ScrollViewer Margin="{TemplateBinding Padding}" x:Name="PART_ContentHost" Background="{x:Null}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            <ContentPresenter x:Name="PART_WatermarkHost"
+                                    Content="{TemplateBinding Watermark}"
+                                    ContentTemplate="{TemplateBinding WatermarkTemplate}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    IsHitTestVisible="False"
+                                    Margin="{TemplateBinding Padding}" 
+                                    Visibility="Collapsed"/>
+                        </Grid>                        
+                    </Themes:ListBoxChrome>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsFocused" Value="False" />
+                                <Condition Property="Text" Value="" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter Property="Visibility" TargetName="PART_WatermarkHost" Value="Visible" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="Visibility" TargetName="PART_WatermarkHost" Value="Collapsed"/>
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <!--<Setter TargetName="Bd" Property="Background" Value="#FFF4F4F3"/>-->
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="BorderBrush" Value="#FFB6C5CC"/>
+            </Trigger>
+            <Trigger Property="IsFocused" Value="true">
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="BorderBrush" Value="#FFDEDEDE"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="PasswordBox">
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="AllowDrop" Value="true"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="PasswordBox">
+                    <Themes:ListBoxChrome BorderThickness="{TemplateBinding BorderThickness}" x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" RenderMouseOver="False" RenderFocused="False" SnapsToDevicePixels="true">
+                        <ScrollViewer Margin="{TemplateBinding Padding}" x:Name="PART_ContentHost" Background="{x:Null}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    </Themes:ListBoxChrome>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <!--<Setter TargetName="Bd" Property="Background" Value="#FFF4F4F3"/>-->
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style TargetType="xceed:RichTextBox">
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource DefaultBorderBrush}"/>
+        <Setter Property="UndoLimit" Value="100"/>
+        <Setter Property="Padding" Value="5"/>
+        <Setter Property="Template" Value="{StaticResource DefaultTextBoxTemplate}"></Setter>
+    </Style>
+    
+    <Style TargetType="TextBox" x:Key="SearchTextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Padding" Value="5,0,5,0"/>
+    </Style>
+
+    <Style TargetType="TextBox" x:Key="HintTextBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Themes:ListBoxChrome BorderThickness="{TemplateBinding BorderThickness}" x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" RenderMouseOver="False" RenderFocused="False" SnapsToDevicePixels="true">
+                        <ScrollViewer Margin="{TemplateBinding Padding}" x:Name="PART_ContentHost" Background="{x:Null}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    </Themes:ListBoxChrome>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Text" Value="{x:Null}">
+                            <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                        </Trigger>
+                        <Trigger Property="Text" Value="">
+                            <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <!--<Setter TargetName="Bd" Property="Background" Value="#FFF4F4F3"/>-->
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Background" Value="{DynamicResource HelpBrush}">            
+        </Setter>
+    </Style>
+    
+</ResourceDictionary>

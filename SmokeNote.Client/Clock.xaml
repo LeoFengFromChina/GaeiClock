@@ -1,0 +1,68 @@
+﻿<Window x:Class="SmokeNote.Client.Clock"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SmokeNote.Client"
+        mc:Ignorable="d"
+        x:Name="myClock"
+        Title="GaeiClock" Height="90" Width="300" WindowStyle="None" AllowsTransparency="True" Background="Transparent" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Topmost="True" MouseLeftButtonDown="Window_MouseLeftButtonDown" MouseLeave="myClock_MouseLeave" ShowInTaskbar="False" Closing="myClock_Closing">
+    <Window.Resources>
+        <ControlTemplate  x:Key="CornerLabel" TargetType="{x:Type Label}">
+            <Border BorderBrush="Green" BorderThickness="1" CornerRadius="50" Background="Black">
+                <ContentPresenter Content="{TemplateBinding ContentControl.Content}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+        </ControlTemplate>
+        <Storyboard x:Key="slideToOpacity" Storyboard.TargetName="myClock">
+            <DoubleAnimation From="1" To=".4" Duration="0:0:1.0" BeginTime="0:0:3" Storyboard.TargetProperty="Opacity"/>
+        </Storyboard>
+        <Storyboard x:Key="slideToNonOpacity" Storyboard.TargetName="myClock">
+            <DoubleAnimation From=".4" To="1" Duration="0:0:1.0" BeginTime="0:0:0" Storyboard.TargetProperty="Opacity"/>
+        </Storyboard>
+        <Storyboard x:Key="mouseLeaveStoryboard" Storyboard.TargetName="myClock">
+            <DoubleAnimation From="1" To=".4" Duration="0:0:1.0" BeginTime="0:0:0.5" Storyboard.TargetProperty="Opacity"/>
+        </Storyboard>
+        <Storyboard x:Key="mouseEnterStoryboard" Storyboard.TargetName="myClock">
+            <DoubleAnimation From=".4" To="1" Duration="0:0:.5" BeginTime="0:0:0" Storyboard.TargetProperty="Opacity"/>
+        </Storyboard>
+        <Storyboard x:Key="TwinkleStoryboard" Storyboard.TargetName="myClock">
+            <DoubleAnimation From=".4" To="1" Duration="0:0:.5" BeginTime="0:0:0" Storyboard.TargetProperty="Opacity"/>
+            <DoubleAnimation From="1" To=".4" Duration="0:0:.5" BeginTime="0:0:.5" Storyboard.TargetProperty="Opacity"/>
+        </Storyboard>
+        <ContextMenu x:Key="ContextMenu">
+            <MenuItem Name="Start" Header="开始" Click="MenuItem_Click" />
+            <MenuItem Name="Stop"  Header="暂停" Click="MenuItem_Click" />
+            <MenuItem Name="End"  Header="结束" Click="MenuItem_Click" />
+            <MenuItem Name="Config"  Header="设置" Click="MenuItem_Click" />
+            <MenuItem Name="Files"  Header="文档" Click="MenuItem_Click" />
+            <MenuItem Name="Exit"  Header="退出" Click="MenuItem_Click" />
+        </ContextMenu>
+    </Window.Resources>
+    <Grid Background="Transparent" x:Name="mainGrid" >
+        <Border Background="{DynamicResource Orange}" Name="MainBorder" CornerRadius="8" BorderBrush="Gray" BorderThickness=".5">
+            <Border.Triggers>
+            </Border.Triggers>
+            <Border.RenderTransform>
+                <ScaleTransform />
+            </Border.RenderTransform>
+        </Border>
+        <ToolBarPanel Margin="0" Orientation="Horizontal" >
+            <StackPanel>
+                <Grid>
+                    <Image x:Name="image"  Source="Assets/Images/Alarm.png" Width="100" Height="100" Margin="2,-3,1,27"></Image>
+                    <Grid>
+                        <Grid Name="roundGrid">
+                            <Label FontSize="32" FontWeight="Bold" Foreground="LightGreen"  Width="60"  Height="60" Template="{StaticResource CornerLabel}" Padding="0,-50" Margin="22,18,21,46" RenderTransformOrigin="0.317,0.033">
+                                <Label.Content>
+                                    <Label Name="lbl_InitalTime"  Content="15" Foreground="LightGreen" Margin="0,-32"></Label>
+                                </Label.Content>
+                            </Label>
+                            <Label Content="min" Name="lbl_InitalText" FontSize="15" FontWeight="Bold" Foreground="white" Margin="34,50,17,39"/>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </StackPanel>
+            <Label Margin="-6,0,0,0" Name="lbl_Click" Content="05:00" FontSize="64" FontWeight="Bold" Padding="0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="White" Width="213"></Label>
+        </ToolBarPanel>
+    </Grid>
+</Window>

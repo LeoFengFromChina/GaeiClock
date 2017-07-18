@@ -1,0 +1,23 @@
+﻿<Window x:Class="SmokeNote.Client.TestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:controls="clr-namespace:SmokeNote.Client.Controls"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="TestWindow" Height="300" Width="500">
+    <Grid>
+        <ListBox Name="lbDrop" Width="200" HorizontalAlignment="Left" AllowDrop="True" Drop="lbDrop_Drop">
+            
+        </ListBox>
+        
+        <ListBox Name="lbDrag" Width="200" HorizontalAlignment="Right" SelectionMode="Extended" MouseMove="lbDrag_MouseMove" SelectionChanged="lbDrag_SelectionChanged">
+            <ListBoxItem Content="测试1"></ListBoxItem>
+            <ListBoxItem Content="测试2"></ListBoxItem>
+            <ListBoxItem Content="测试3"></ListBoxItem>
+        </ListBox>
+        
+        <controls:LoadingButton x:Name="lbTest" Click="LoadingButton_Click" IsLoading="True" Width="16" ImageSource="/SmokeNote.Client;component/Assets/Images/Menu/TopMenu/Sync.png"/>
+        
+        <controls:NotifyControl x:Name="ncTest" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,20,20"/>
+    </Grid>
+</Window>

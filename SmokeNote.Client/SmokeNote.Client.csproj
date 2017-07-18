@@ -1,0 +1,456 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{48B7C99B-4232-41E6-938B-0E9883B5BD03}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SmokeNote.Client</RootNamespace>
+    <AssemblyName>SmokeNote.Client</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Clock.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Hardcodet.Wpf.TaskbarNotification">
+      <HintPath>..\Using\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
+    </Reference>
+    <Reference Include="MarkupConverter">
+      <HintPath>..\Using\MarkupConverter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Interactions">
+      <HintPath>..\Using\Microsoft.Expression.Interactions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.PowerPoint, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism">
+      <HintPath>..\Using\Microsoft.Practices.Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism.UnityExtensions">
+      <HintPath>..\Using\Microsoft.Practices.Prism.UnityExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\Using\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\Using\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Windows.Shell">
+      <HintPath>..\Using\Microsoft.Windows.Shell.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework.Aero" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity">
+      <HintPath>..\Using\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.Toolkit">
+      <HintPath>..\Using\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Behaviors\AlwaysShowInTaskbarBehavior.cs" />
+    <Compile Include="Behaviors\NoCheckableToggleButtonBehavior.cs" />
+    <Compile Include="Behaviors\NotifyMessageBehavior.cs" />
+    <Compile Include="Behaviors\TextBoxDelayBehavior.cs" />
+    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Clock.xaml.cs">
+      <DependentUpon>Clock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ClockConfig.xaml.cs">
+      <DependentUpon>ClockConfig.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Consts\WindowNames.cs" />
+    <Compile Include="Controls\NotifyControl.xaml.cs">
+      <DependentUpon>NotifyControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\RichTextEditor.xaml.cs">
+      <DependentUpon>RichTextEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\LoadingButton.cs" />
+    <Compile Include="Controls\TopMenuItem.cs" />
+    <Compile Include="Controls\TopMenuItemHelpers.cs" />
+    <Compile Include="Converters\ExampleConverter.cs" />
+    <Compile Include="Dialog\CustomDialogService.cs" />
+    <Compile Include="Dialog\DialogWindow.xaml.cs">
+      <DependentUpon>DialogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Help.xaml.cs">
+      <DependentUpon>Help.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="HotKeys\EHotKeySetting.cs" />
+    <Compile Include="HotKeys\EKey.cs" />
+    <Compile Include="HotKeys\HotKeyHelper.cs" />
+    <Compile Include="HotKeys\HotKeyManager.cs" />
+    <Compile Include="HotKeys\HotKeyModel.cs" />
+    <Compile Include="HotKeys\HotKeySettingsManager.cs" />
+    <Compile Include="Shell.xaml.cs">
+      <DependentUpon>Shell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TestWindow.xaml.cs">
+      <DependentUpon>TestWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\ConfigViewModel.cs" />
+    <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Compile Include="Views\Config.xaml.cs">
+      <DependentUpon>Config.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Framework.Common\Framework.Common.csproj">
+      <Project>{a724b0f6-5d79-497b-b2eb-6b04a0ced42c}</Project>
+      <Name>Framework.Common</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\SmokeNote.Logic\SmokeNote.Logic.csproj">
+      <Project>{c464c79a-d46e-4387-b2b6-c985ce9c0d5a}</Project>
+      <Name>SmokeNote.Logic</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Events\" />
+    <Folder Include="TriggerActions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Assets\Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Assets\Themes\Default\Brushes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Assets\Themes\Default\Button.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Assets\Themes\Default\CheckBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Assets\Themes\Default\ComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Assets\Themes\Default\Editor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Assets\Themes\Default\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Assets\Themes\Default\ListBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Assets\Themes\Default\Menu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Assets\Themes\Default\RadioButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Assets\Themes\Default\ScrollViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Assets\Themes\Default\TextBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Assets\Themes\Default\TextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Assets\Themes\Default\Toolbar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Assets\Themes\Default\Treeview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Assets\Themes\Default\Window.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Clock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ClockConfig.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\NotifyControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\RichTextEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialog\DialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Help.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TestWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Config.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Buttons\btnClose.png" />
+    <Resource Include="Assets\Images\Buttons\btnClose_Hover.png" />
+    <Resource Include="Assets\Images\Buttons\btnClose_Press.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Buttons\btnMax.png" />
+    <Resource Include="Assets\Images\Buttons\btnMax_Hover.png" />
+    <Resource Include="Assets\Images\Buttons\btnMax_Press.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Buttons\btnMin.png" />
+    <Resource Include="Assets\Images\Buttons\btnMin_Hover.png" />
+    <Resource Include="Assets\Images\Buttons\btnMin_Press.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Buttons\btnRestore.png" />
+    <Resource Include="Assets\Images\Buttons\btnRestore_Hover.png" />
+    <Resource Include="Assets\Images\Buttons\btnRestore_Press.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Menu\RightArrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Menu\RightArrow_Hover.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Menu\Check.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Menu\TopMenu\New.png" />
+    <Resource Include="Assets\Images\Menu\TopMenu\New_Disabled.png" />
+    <Resource Include="Assets\Images\Menu\TopMenu\New_Hover.png" />
+    <Resource Include="Assets\Images\Menu\TopMenu\New_Pressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Menu\TopMenu\Delete.png" />
+    <Resource Include="Assets\Images\Menu\TopMenu\Delete_Disabled.png" />
+    <Resource Include="Assets\Images\Menu\TopMenu\Delete_Hover.png" />
+    <Resource Include="Assets\Images\Menu\TopMenu\Delete_Pressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Menu\Down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Menu\TopMenu\Share.png" />
+    <Resource Include="Assets\Images\Menu\TopMenu\Share_Disabled.png" />
+    <Resource Include="Assets\Images\Menu\TopMenu\Share_Hover.png" />
+    <Resource Include="Assets\Images\Menu\TopMenu\Share_Pressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Menu\TopMenu\Sync.png" />
+    <Resource Include="Assets\Images\Menu\TopMenu\Sync_Disabled.png" />
+    <Resource Include="Assets\Images\Menu\TopMenu\Sync_Hover.png" />
+    <Resource Include="Assets\Images\Menu\TopMenu\Sync_Pressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Menu\TopMenu\Count.png" />
+    <Resource Include="Assets\Images\Menu\TopMenu\Count_Disabled.png" />
+    <Resource Include="Assets\Images\Menu\TopMenu\Count_Hover.png" />
+    <Resource Include="Assets\Images\Menu\TopMenu\Count_Pressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Menu\TopMenu\Print.png" />
+    <Resource Include="Assets\Images\Menu\TopMenu\Print_Disabled.png" />
+    <Resource Include="Assets\Images\Menu\TopMenu\Print_Hover.png" />
+    <Resource Include="Assets\Images\Menu\TopMenu\Print_Pressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\RadioButton\Checked.png" />
+    <Resource Include="Assets\Images\RadioButton\Normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\CheckBox\Checked.png" />
+    <Resource Include="Assets\Images\CheckBox\Disabled.png" />
+    <Resource Include="Assets\Images\CheckBox\DisabledAndChecked.png" />
+    <Resource Include="Assets\Images\CheckBox\Normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\EditorIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Buttons\btnHistory.png" />
+    <Resource Include="Assets\Images\Buttons\btnHistory_Disabled.png" />
+    <Resource Include="Assets\Images\Buttons\btnHistory_Hover.png" />
+    <Resource Include="Assets\Images\Buttons\btnHistory_Press.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Buttons\btnHideProperty.png" />
+    <Resource Include="Assets\Images\Buttons\btnHideProperty_Hover.png" />
+    <Resource Include="Assets\Images\Buttons\btnHideProperty_Press.png" />
+    <Resource Include="Assets\Images\Buttons\btnShowProperty.png" />
+    <Resource Include="Assets\Images\Buttons\btnShowProperty_Hover.png" />
+    <Resource Include="Assets\Images\Buttons\btnShowProperty_Press.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Editor\align_center.png" />
+    <Resource Include="Assets\Images\Editor\align_left.png" />
+    <Resource Include="Assets\Images\Editor\align_right.png" />
+    <Resource Include="Assets\Images\Editor\bold.png" />
+    <Resource Include="Assets\Images\Editor\italic.png" />
+    <Resource Include="Assets\Images\Editor\underline.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Editor\decrease_indent.png" />
+    <Resource Include="Assets\Images\Editor\increase_indent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Editor\align_justify.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Editor\bullet_list.png" />
+    <Resource Include="Assets\Images\Editor\numeric_list.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Editor\redo.png" />
+    <Resource Include="Assets\Images\Editor\undo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Notebook_Local.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Editor\hyperlink.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="SmokeNote.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Buttons\btnSearch.png" />
+    <Resource Include="Assets\Images\Buttons\btnSearch_Disabled.png" />
+    <Resource Include="Assets\Images\Buttons\btnSearch_Hover.png" />
+    <Resource Include="Assets\Images\Buttons\btnSearch_Press.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Buttons\btnDeleteKeywords.png" />
+    <Resource Include="Assets\Images\Buttons\btnDeleteKeywords_Disabled.png" />
+    <Resource Include="Assets\Images\Buttons\btnDeleteKeywords_Hover.png" />
+    <Resource Include="Assets\Images\Buttons\btnDeleteKeywords_Press.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Alarm.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Clock.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

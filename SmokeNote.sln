@@ -1,0 +1,68 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmokeNote.Client", "SmokeNote.Client\SmokeNote.Client.csproj", "{48B7C99B-4232-41E6-938B-0E9883B5BD03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework.Common", "Framework.Common\Framework.Common.csproj", "{A724B0F6-5D79-497B-B2EB-6B04A0CED42C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Using", "Using", "{98F807E5-E153-4C42-92BC-423C4E3AF0F9}"
+	ProjectSection(SolutionItems) = preProject
+		Using\FirstFloor.ModernUI.dll = Using\FirstFloor.ModernUI.dll
+		Using\Hardcodet.Wpf.TaskbarNotification.dll = Using\Hardcodet.Wpf.TaskbarNotification.dll
+		Using\MarkupConverter.dll = Using\MarkupConverter.dll
+		Using\Microsoft.Expression.Interactions.dll = Using\Microsoft.Expression.Interactions.dll
+		Using\Microsoft.Practices.Prism.dll = Using\Microsoft.Practices.Prism.dll
+		Using\Microsoft.Practices.Prism.Interactivity.dll = Using\Microsoft.Practices.Prism.Interactivity.dll
+		Using\Microsoft.Practices.Prism.UnityExtensions.dll = Using\Microsoft.Practices.Prism.UnityExtensions.dll
+		Using\Microsoft.Practices.ServiceLocation.dll = Using\Microsoft.Practices.ServiceLocation.dll
+		Using\Microsoft.Practices.Unity.Configuration.dll = Using\Microsoft.Practices.Unity.Configuration.dll
+		Using\Microsoft.Practices.Unity.dll = Using\Microsoft.Practices.Unity.dll
+		Using\Microsoft.Windows.Shell.dll = Using\Microsoft.Windows.Shell.dll
+		Using\Newtonsoft.Json.dll = Using\Newtonsoft.Json.dll
+		Using\SmokeNote.db = Using\SmokeNote.db
+		Using\System.Data.SQLite.dll = Using\System.Data.SQLite.dll
+		Using\System.Data.SQLite.xml = Using\System.Data.SQLite.xml
+		Using\System.Windows.Interactivity.dll = Using\System.Windows.Interactivity.dll
+		Using\Xceed.Wpf.Toolkit.dll = Using\Xceed.Wpf.Toolkit.dll
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmokeNote.Logic", "SmokeNote.Logic\SmokeNote.Logic.csproj", "{C464C79A-D46E-4387-B2B6-C985CE9C0D5A}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 4
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://scheshan.visualstudio.com/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Framework.Common\\Framework.Common.csproj
+		SccProjectName1 = Framework.Common
+		SccLocalPath1 = Framework.Common
+		SccProjectUniqueName2 = SmokeNote.Client\\SmokeNote.Client.csproj
+		SccProjectName2 = SmokeNote.Client
+		SccLocalPath2 = SmokeNote.Client
+		SccProjectUniqueName3 = SmokeNote.Logic\\SmokeNote.Logic.csproj
+		SccProjectName3 = SmokeNote.Logic
+		SccLocalPath3 = SmokeNote.Logic
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{48B7C99B-4232-41E6-938B-0E9883B5BD03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48B7C99B-4232-41E6-938B-0E9883B5BD03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48B7C99B-4232-41E6-938B-0E9883B5BD03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48B7C99B-4232-41E6-938B-0E9883B5BD03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A724B0F6-5D79-497B-B2EB-6B04A0CED42C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A724B0F6-5D79-497B-B2EB-6B04A0CED42C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A724B0F6-5D79-497B-B2EB-6B04A0CED42C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A724B0F6-5D79-497B-B2EB-6B04A0CED42C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C464C79A-D46E-4387-B2B6-C985CE9C0D5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C464C79A-D46E-4387-B2B6-C985CE9C0D5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C464C79A-D46E-4387-B2B6-C985CE9C0D5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C464C79A-D46E-4387-B2B6-C985CE9C0D5A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

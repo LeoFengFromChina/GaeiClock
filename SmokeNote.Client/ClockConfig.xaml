@@ -1,0 +1,487 @@
+﻿<Window x:Class="SmokeNote.Client.ClockConfig"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SmokeNote.Client"
+        xmlns:model="clr-namespace:SmokeNote.Logic.Models;assembly=SmokeNote.Logic"
+        xmlns:helpers="clr-namespace:Framework.Common.Helpers;assembly=Framework.Common"
+        mc:Ignorable="d"
+        Title="ClockSetting" Height="355.263" Width="463.533" Style="{StaticResource ChildWindowStyle}" WindowStartupLocation="CenterScreen" >
+    <Window.Resources>
+        <DataTemplate x:Key="TimeDT">
+            <TextBox x:Name="textboxName" Text="{Binding Time}" ></TextBox>
+        </DataTemplate>
+        <DataTemplate x:Key="FileNameDT">
+            <Label x:Name="textboxName" Content="{Binding FileName}" HorizontalAlignment="Center" ></Label>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="126*"/>
+            <ColumnDefinition Width="401*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <StackPanel Margin="0,10,0,10">
+                <Border>
+                    <Border.Background>
+                        <SolidColorBrush Color="Gray"></SolidColorBrush>
+                    </Border.Background>
+                </Border>
+                <RadioButton IsChecked="True"  Content="全局设置" GroupName="Navigation" Name="rbtnGlobal" Style="{StaticResource ConfigNavigationRadioButton}"/>
+                <RadioButton IsChecked="False"  Content="声音设置" GroupName="Navigation" Name="rbtnLock" Style="{StaticResource ConfigNavigationRadioButton}"/>
+                <RadioButton IsChecked="False"  Content="文档列表" GroupName="Navigation" Name="rbtnFileList" Style="{StaticResource ConfigNavigationRadioButton}"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="239*"/>
+                <RowDefinition Height="48*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Name="grid_Panel">
+                <Grid>
+                    <Grid Name="grid_BaseConfig"  Visibility="{Binding IsChecked, ElementName=rbtnGlobal,Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel>
+                            <CheckBox Name="IsTopmost" Margin="10" Content="是否置顶"/>
+                            <CheckBox Name="IsOpacity" Margin="10,0,10,10" Content="是否透明"/>
+                            <CheckBox Name="IsTwinkle" Margin="10,0,10,0" Content="预警闪烁"/>
+                            <StackPanel  Margin="6,5,10,0"  Orientation="Horizontal">
+                                <Label Content="默认倒计时长:"></Label>
+                                <TextBox Name="DefaultDuration" Width="200"></TextBox>
+                            </StackPanel>
+                            <StackPanel   Margin="6,5,10,0"  Orientation="Horizontal">
+                                <Label Content="默认最大上限:"></Label>
+                                <TextBox Name="DefaultMaximunDuration" Width="200"></TextBox>
+                            </StackPanel>
+                            <StackPanel   Margin="6,5,10,0"  Orientation="Horizontal">
+                                <Label Content="       背景颜色:"></Label>
+                                <ComboBox Name="BackgroundName" Width="200" Height="30">
+                                    <!--<ComboBoxItem Name="Violet_LightGreen">
+                                        <StackPanel Height="30" Orientation="Horizontal">
+                                            <Grid Width="50" Height="30">
+                                                <Border Background="{StaticResource Violet_LightGreen}"  BorderBrush="Gray" BorderThickness=".5" Name="top">
+                                                </Border>
+                                            </Grid>
+                                            <TextBlock Margin="10">Violet_LightGreen</TextBlock>
+                                        </StackPanel>
+                                        
+                                    </ComboBoxItem>
+                                    <ComboBoxItem Name="Blue_Withe">
+                                        <StackPanel Height="30" Orientation="Horizontal">
+                                            <Grid Width="50">
+                                                <Border Background="{StaticResource Blue_Withe}"  BorderBrush="Gray" BorderThickness=".5">
+                                                </Border>
+                                            </Grid>
+                                            <TextBlock Margin="10">Blue_Withe</TextBlock>
+                                        </StackPanel>
+                                    </ComboBoxItem>
+                                    <ComboBoxItem Name="LightGreen_LightYellow">
+                                        <StackPanel Height="30" Orientation="Horizontal">
+                                            <Grid Width="50">
+                                                <Border Background="{StaticResource LightGreen_LightYellow}"  BorderBrush="Gray" BorderThickness=".5">
+                                                </Border>
+                                            </Grid>
+                                            <TextBlock Margin="10">Green_Yellow</TextBlock>
+                                        </StackPanel>
+                                    </ComboBoxItem>-->
+                                    <ComboBoxItem Name="Gray">
+                                        <StackPanel Height="30" Orientation="Horizontal">
+                                            <Grid Width="50">
+                                                <Border Background="{StaticResource Gray}"  BorderBrush="Gray" BorderThickness=".5">
+                                                </Border>
+                                            </Grid>
+                                            <TextBlock Margin="10">Gray</TextBlock>
+                                        </StackPanel>
+                                    </ComboBoxItem>
+
+                                    <ComboBoxItem Name="Orange">
+                                        <StackPanel Height="30" Orientation="Horizontal">
+                                            <Grid Width="50">
+                                                <Border Background="{StaticResource Orange}"  BorderBrush="Gray" BorderThickness=".5">
+                                                </Border>
+                                            </Grid>
+                                            <TextBlock Margin="10">Orange</TextBlock>
+                                        </StackPanel>
+                                    </ComboBoxItem>
+
+                                    <ComboBoxItem Name="Transpant">
+                                        <StackPanel Height="30" Orientation="Horizontal">
+                                            <Grid Width="50">
+                                                <Border Background="{StaticResource Transpant}"  BorderBrush="Gray" BorderThickness=".5">
+                                                </Border>
+                                            </Grid>
+                                            <TextBlock Margin="10">Transpant</TextBlock>
+                                        </StackPanel>
+                                    </ComboBoxItem>
+                                </ComboBox>
+                                <!--<Button Margin="10,0,0,0" IsEnabled="{Binding CanSave}" Command="{Binding SaveCommand}" Width="30" VerticalAlignment="Center" HorizontalAlignment="Center" Height="30" Style="{DynamicResource SubmitButton}" Content="..." />-->
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid  Name="grid_SoundsConfig"  Visibility="{Binding IsChecked, ElementName=rbtnLock,Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel>
+                            <StackPanel   Margin="6,10,10,0"  Orientation="Horizontal">
+                                <Label Content="预警一 :"></Label>
+                                <TextBox Name="FirstWarmTime" Width="60">
+                                    <TextBox.Resources>
+                                        <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left">
+                                            <VisualBrush.Visual>
+                                                <TextBlock FontStyle="Italic" Text="04:50"/>
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </TextBox.Resources>
+                                    <TextBox.Style>
+                                        <Style TargetType="TextBox">
+                                            <Style.Triggers>
+                                                <Trigger Property="Text" Value="{x:Null}">
+                                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                                </Trigger>
+                                                <Trigger Property="Text" Value="">
+                                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
+                                <TextBox Name="FirstWarmSound" Width="140" Margin="10,0,10,0">
+                                    <TextBox.Resources>
+                                        <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left">
+                                            <VisualBrush.Visual>
+                                                <TextBlock FontStyle="Italic" Text="声音文件路径"/>
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </TextBox.Resources>
+                                    <TextBox.Style>
+                                        <Style TargetType="TextBox">
+                                            <Style.Triggers>
+                                                <Trigger Property="Text" Value="{x:Null}">
+                                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                                </Trigger>
+                                                <Trigger Property="Text" Value="">
+                                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
+                                <TextBox Name="FirstVolumeAdd" Width="50" Margin="0,0,0,0">
+                                    <TextBox.Resources>
+                                        <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left">
+                                            <VisualBrush.Visual>
+                                                <TextBlock FontStyle="Italic" Text="+音量"/>
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </TextBox.Resources>
+                                    <TextBox.Style>
+                                        <Style TargetType="TextBox">
+                                            <Style.Triggers>
+                                                <Trigger Property="Text" Value="{x:Null}">
+                                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                                </Trigger>
+                                                <Trigger Property="Text" Value="">
+                                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
+                            </StackPanel>
+                            <StackPanel   Margin="6,5,10,0"  Orientation="Horizontal">
+                                <Label Content="预警二 :"></Label>
+                                <TextBox Name="SecondWarmTime" Width="60">
+                                    <TextBox.Resources>
+                                        <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left">
+                                            <VisualBrush.Visual>
+                                                <TextBlock FontStyle="Italic" Text="04:50"/>
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </TextBox.Resources>
+                                    <TextBox.Style>
+                                        <Style TargetType="TextBox">
+                                            <Style.Triggers>
+                                                <Trigger Property="Text" Value="{x:Null}">
+                                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                                </Trigger>
+                                                <Trigger Property="Text" Value="">
+                                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
+                                <TextBox Name="SecondWarmSound" Width="140" Margin="10,0,10,0">
+                                    <TextBox.Resources>
+                                        <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left">
+                                            <VisualBrush.Visual>
+                                                <TextBlock FontStyle="Italic" Text="声音文件路径"/>
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </TextBox.Resources>
+                                    <TextBox.Style>
+                                        <Style TargetType="TextBox">
+                                            <Style.Triggers>
+                                                <Trigger Property="Text" Value="{x:Null}">
+                                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                                </Trigger>
+                                                <Trigger Property="Text" Value="">
+                                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
+                                <TextBox Name="SecondVolumeAdd" Width="50" Margin="0,0,0,0">
+                                    <TextBox.Resources>
+                                        <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left">
+                                            <VisualBrush.Visual>
+                                                <TextBlock FontStyle="Italic" Text="+音量"/>
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </TextBox.Resources>
+                                    <TextBox.Style>
+                                        <Style TargetType="TextBox">
+                                            <Style.Triggers>
+                                                <Trigger Property="Text" Value="{x:Null}">
+                                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                                </Trigger>
+                                                <Trigger Property="Text" Value="">
+                                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
+                            </StackPanel>
+                            <StackPanel   Margin="6,5,10,0"  Orientation="Horizontal">
+                                <Label Content="预警三 :"></Label>
+
+                                <TextBox Name="ThirdWarmTime" Width="60">
+                                    <TextBox.Resources>
+                                        <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left">
+                                            <VisualBrush.Visual>
+                                                <TextBlock FontStyle="Italic" Text="04:50"/>
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </TextBox.Resources>
+                                    <TextBox.Style>
+                                        <Style TargetType="TextBox">
+                                            <Style.Triggers>
+                                                <Trigger Property="Text" Value="{x:Null}">
+                                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                                </Trigger>
+                                                <Trigger Property="Text" Value="">
+                                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
+                                <TextBox Name="ThirdWarmSound" Width="140" Margin="10,0,10,0">
+                                    <TextBox.Resources>
+                                        <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left">
+                                            <VisualBrush.Visual>
+                                                <TextBlock FontStyle="Italic" Text="声音文件路径"/>
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </TextBox.Resources>
+                                    <TextBox.Style>
+                                        <Style TargetType="TextBox">
+                                            <Style.Triggers>
+                                                <Trigger Property="Text" Value="{x:Null}">
+                                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                                </Trigger>
+                                                <Trigger Property="Text" Value="">
+                                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
+                                <TextBox Name="ThirdVolumeAdd" Width="50" Margin="0,0,0,0">
+                                    <TextBox.Resources>
+                                        <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left">
+                                            <VisualBrush.Visual>
+                                                <TextBlock FontStyle="Italic" Text="+音量"/>
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </TextBox.Resources>
+                                    <TextBox.Style>
+                                        <Style TargetType="TextBox">
+                                            <Style.Triggers>
+                                                <Trigger Property="Text" Value="{x:Null}">
+                                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                                </Trigger>
+                                                <Trigger Property="Text" Value="">
+                                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
+                            </StackPanel>
+                            <StackPanel   Margin="6,5,10,0"  Orientation="Horizontal">
+                                <Label Content="预警四 :"></Label>
+
+                                <TextBox Name="FourthWarmTime" Width="60">
+                                    <TextBox.Resources>
+                                        <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left">
+                                            <VisualBrush.Visual>
+                                                <TextBlock FontStyle="Italic" Text="04:50"/>
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </TextBox.Resources>
+                                    <TextBox.Style>
+                                        <Style TargetType="TextBox">
+                                            <Style.Triggers>
+                                                <Trigger Property="Text" Value="{x:Null}">
+                                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                                </Trigger>
+                                                <Trigger Property="Text" Value="">
+                                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
+                                <TextBox Name="FourthWarmSound" Width="140" Margin="10,0,10,0">
+                                    <TextBox.Resources>
+                                        <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left">
+                                            <VisualBrush.Visual>
+                                                <TextBlock FontStyle="Italic" Text="声音文件路径"/>
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </TextBox.Resources>
+                                    <TextBox.Style>
+                                        <Style TargetType="TextBox">
+                                            <Style.Triggers>
+                                                <Trigger Property="Text" Value="{x:Null}">
+                                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                                </Trigger>
+                                                <Trigger Property="Text" Value="">
+                                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
+                                <TextBox Name="FourthVolumeAdd" Width="50" Margin="0,0,0,0">
+                                    <TextBox.Resources>
+                                        <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left">
+                                            <VisualBrush.Visual>
+                                                <TextBlock FontStyle="Italic" Text="+音量"/>
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </TextBox.Resources>
+                                    <TextBox.Style>
+                                        <Style TargetType="TextBox">
+                                            <Style.Triggers>
+                                                <Trigger Property="Text" Value="{x:Null}">
+                                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                                </Trigger>
+                                                <Trigger Property="Text" Value="">
+                                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
+                            </StackPanel>
+                            <StackPanel   Margin="6,5,10,0"  Orientation="Horizontal">
+                                <Label Content="预警五 :"></Label>
+                                <TextBox Name="FifthWarmTime" Width="60">
+                                    <TextBox.Resources>
+                                        <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left">
+                                            <VisualBrush.Visual>
+                                                <TextBlock FontStyle="Italic" Text="04:50"/>
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </TextBox.Resources>
+                                    <TextBox.Style>
+                                        <Style TargetType="TextBox">
+                                            <Style.Triggers>
+                                                <Trigger Property="Text" Value="{x:Null}">
+                                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                                </Trigger>
+                                                <Trigger Property="Text" Value="">
+                                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
+                                <TextBox Name="FifthWarmSound" Width="140" Margin="10,0,10,0">
+                                    <TextBox.Resources>
+                                        <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left">
+                                            <VisualBrush.Visual>
+                                                <TextBlock FontStyle="Italic" Text="声音文件路径"/>
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </TextBox.Resources>
+                                    <TextBox.Style>
+                                        <Style TargetType="TextBox">
+                                            <Style.Triggers>
+                                                <Trigger Property="Text" Value="{x:Null}">
+                                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                                </Trigger>
+                                                <Trigger Property="Text" Value="">
+                                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
+                                <TextBox Name="FifthVolumeAdd" Width="50" Margin="0,0,0,0">
+                                    <TextBox.Resources>
+                                        <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left">
+                                            <VisualBrush.Visual>
+                                                <TextBlock FontStyle="Italic" Text="+音量"/>
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </TextBox.Resources>
+                                    <TextBox.Style>
+                                        <Style TargetType="TextBox">
+                                            <Style.Triggers>
+                                                <Trigger Property="Text" Value="{x:Null}">
+                                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                                </Trigger>
+                                                <Trigger Property="Text" Value="">
+                                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                    
+                    <Grid  Name="grid_FilesConfig"  Visibility="{Binding IsChecked, ElementName=rbtnFileList,Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel>
+                            <StackPanel  Name="stp_Title" Orientation="Horizontal" Margin="10">
+                                <Button Content="选择"   Style="{DynamicResource SubmitButton}" Click="Button_Click"></Button>
+                                <Button Content="重置"  Style="{DynamicResource SubmitButton}" Margin="10,0" Click="Button_Click_1" ></Button>
+                            </StackPanel>
+                            <StackPanel>
+                                <ListView x:Name="listView" Height="220" Width="330">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="文件名"  Width="210"  CellTemplate="{StaticResource FileNameDT}"></GridViewColumn>
+                                            <GridViewColumn Header="演讲时长" Width="120"  CellTemplate="{StaticResource TimeDT}"></GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Button Name="btn_Submit" Command="{Binding SaveCommand}" Width="100" VerticalAlignment="Center" HorizontalAlignment="Left" Height="30" Style="{DynamicResource SubmitButton}" Content="确定" Margin="133,12,0,13" />
+                <Button Name="btn_Cancel"  Width="100" VerticalAlignment="Center" HorizontalAlignment="Right" Height="30" Content="取消" Margin="0,8,10,10" />
+            </Grid>
+        </Grid>
+
+    </Grid>
+</Window>

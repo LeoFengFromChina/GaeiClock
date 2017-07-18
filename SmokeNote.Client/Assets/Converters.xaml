@@ -1,0 +1,16 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:frameworkConverters="clr-namespace:Framework.Common.Converters;assembly=Framework.Common"
+                    xmlns:converters="clr-namespace:SmokeNote.Client.Converters"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <frameworkConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    <frameworkConverters:OppositeConverter x:Key="OppositeConverter"/>
+    <frameworkConverters:OppositeToVisibilityConverter x:Key="OppositeToVisibilityConverter"/>
+    <frameworkConverters:NotNullToVisibilityConverter x:Key="NotNullToVisibilityConverter"/>
+
+    <!--<converters:NotebookTypeToCheckConverter x:Key="NotebookTypeToCheckConverter"/>
+    <converters:ShowAddNoteButtonConverter x:Key="ShowAddNoteButtonConverter"/>
+    <converters:ExampleConverter x:Key="ShowNoSearchResultConverter"/>
+    <converters:ArticleDisplayToCheckConverter x:Key="ArticleDisplayToCheckConverter"/>
+    <converters:ArticleDisplayToItemTemplateConverter x:Key="ArticleDisplayToItemTemplateConverter"/>
+    <converters:NoteItemContextMenuConverter x:Key="NoteItemContextMenuConverter"/>-->
+</ResourceDictionary>

@@ -1,0 +1,19 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/SmokeNote.Client;component/Assets/Themes/Default/Brushes.xaml"/>
+        <ResourceDictionary Source="/SmokeNote.Client;component/Assets/Themes/Default/Button.xaml"/>
+        <ResourceDictionary Source="/SmokeNote.Client;component/Assets/Themes/Default/Window.xaml"/>
+        <ResourceDictionary Source="/SmokeNote.Client;component/Assets/Themes/Default/Menu.xaml"/>
+        <ResourceDictionary Source="/SmokeNote.Client;component/Assets/Themes/Default/ScrollViewer.xaml"/>
+        <ResourceDictionary Source="/SmokeNote.Client;component/Assets/Themes/Default/Treeview.xaml"/>
+        <ResourceDictionary Source="/SmokeNote.Client;component/Assets/Themes/Default/RadioButton.xaml"/>
+        <ResourceDictionary Source="/SmokeNote.Client;component/Assets/Themes/Default/CheckBox.xaml"/>
+        <ResourceDictionary Source="/SmokeNote.Client;component/Assets/Themes/Default/TextBox.xaml"/>
+        <ResourceDictionary Source="/SmokeNote.Client;component/Assets/Themes/Default/ListBox.xaml"/>
+        <ResourceDictionary Source="/SmokeNote.Client;component/Assets/Themes/Default/ComboBox.xaml"/>
+        <ResourceDictionary Source="/SmokeNote.Client;component/Assets/Themes/Default/Editor.xaml"/>
+        <ResourceDictionary Source="/SmokeNote.Client;component/Assets/Themes/Default/Toolbar.xaml"/>
+        <ResourceDictionary Source="/SmokeNote.Client;component/Assets/Themes/Default/TextBlock.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>
