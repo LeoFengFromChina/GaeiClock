@@ -33,7 +33,6 @@ namespace SmokeNote.Client
             InitializeComponent();
             this.Loaded += Clock_Loaded;
             this.MouseEnter += Clock_MouseEnter;
-
         }
 
         private PowerPoint.Application oPPT;
@@ -45,13 +44,15 @@ namespace SmokeNote.Client
             StartMenu.Header = "开始";
             StartMenu.Name = "Start";
             StartMenu.Click += MenuItem_Click;
+
             aMenu.Items.Add(StartMenu);
 
-            MenuItem StopMenu = new MenuItem();
-            StopMenu.Header = "暂停";
-            StopMenu.Name = "Stop";
-            StopMenu.Click += MenuItem_Click;
-            aMenu.Items.Add(StopMenu);
+            //MenuItem StopMenu = new MenuItem();
+            //StopMenu.Header = "暂停";
+            //StopMenu.Name = "Stop";
+
+            //StopMenu.Click += MenuItem_Click;
+            //aMenu.Items.Add(StopMenu);
 
             MenuItem EndMenu = new MenuItem();
             EndMenu.Header = "结束";
@@ -138,6 +139,7 @@ namespace SmokeNote.Client
 
         private void SlideShowBegin(PowerPoint.SlideShowWindow Wn)
         {
+            START = false;
             Start();
         }
 
@@ -297,11 +299,27 @@ namespace SmokeNote.Client
                 processes[0].Kill();
             }
         }
+
+        bool START = false;
         private void Start()
         {
+            if (START)
+            {
+
+                Stop();
+                Dispatcher.BeginInvoke(new Action(delegate
+                {
+                    (mainGrid.ContextMenu.Items[0] as MenuItem).Header = "开始";
+                }));
+                return;
+            }
+            START = !START;
+            Dispatcher.BeginInvoke(new Action(delegate
+            {
+                (mainGrid.ContextMenu.Items[0] as MenuItem).Header = "暂停";
+            }));
             if (!isStop)
             {
-                IsNowShow = false;
                 isManulStopSound = false;
                 startTime = DateTime.Now;
                 if (std != null)
@@ -311,26 +329,26 @@ namespace SmokeNote.Client
                 UpTimes = 0;
                 SecondCount = 0;
                 std = null;
-                //IsNowShow = false;
             }
             else if (isStop)
             {
-                if (!string.IsNullOrEmpty(currentSoundPath))
+                if (!string.IsNullOrEmpty(currentSoundPath) && !isManulStopSound)
                     MediaPlayerHelper.PlaySound(currentSoundPath, true);
                 isStop = false;
-                IsNowShow = true ;
             }
 
             dtimer.Start();
         }
         private void Stop()
         {
+            START = false;
             isStop = true;
             dtimer.Stop();
             MediaPlayerHelper.Stop();
         }
         private void End()
         {
+            START = false;
             isManulStopSound = false;
             dtimer.Stop();
             SecondCount = 0;
@@ -338,7 +356,6 @@ namespace SmokeNote.Client
             if (std != null)
                 std.Stop();
             std = null;
-            IsNowShow = false;
             MediaPlayerHelper.Stop();
             SetBackVolume();
             currentSoundPath = string.Empty;
@@ -378,14 +395,19 @@ namespace SmokeNote.Client
             {
                 case "Start":
                     {
+                        //if (!START)
+                        //    ((MenuItem)sender).Header = "暂停";
+                        //else
+                        //    ((MenuItem)sender).Header = "开始";
+
                         Start();
                     }
                     break;
-                case "Stop":
-                    {
-                        Stop();
-                    }
-                    break;
+                //case "Stop":
+                //    {
+                //        Stop();
+                //    }
+                //    break;
                 case "End":
                     {
                         #region MyRegion
@@ -436,13 +458,15 @@ namespace SmokeNote.Client
 
         void dtimer_Tick(object sender, EventArgs e)
         {
-            if (isStop && !isManulStopSound)
+            if (isStop)
                 return;
             SecondCount += 1;
 
             this.lbl_Click.Content = GetTimeFormat(SecondCount);
+            if (isManulStopSound)
+                return;//此处暂停是指停止声音，计时继续
             int volumeAdd = 0;
-            if (IsNow())
+            if (IsNow() && !MediaPlayerHelper.isPlaying)
             {
                 #region MyRegion
 
@@ -455,8 +479,8 @@ namespace SmokeNote.Client
                     std.Begin();
                 }
 
-                int.TryParse(initDic["EqualVolumeAdd"], out volumeAdd);
-                VolumeUp(volumeAdd / 2);
+                //int.TryParse(initDic["EqualVolumeAdd"], out volumeAdd);
+                //VolumeUp(volumeAdd / 2);
                 currentSoundPath = System.Environment.CurrentDirectory + @"\Sounds\" + initDic["EqualSound"];
                 MediaPlayerHelper.PlaySound(currentSoundPath, true);
                 #endregion
@@ -534,20 +558,14 @@ namespace SmokeNote.Client
             }
         }
 
-        bool IsNowShow = false;
         private bool IsNow()
         {
-            if (IsNowShow)
-            {
-                return false;
-            }
             bool result = false;
             int currentMin = int.Parse(lbl_Click.Content.ToString().Split(':')[0]);
             int inintMin = int.Parse(lbl_InitalTime.Content.ToString());
             if (currentMin >= inintMin)
             {
                 result = true;
-                IsNowShow = true;
             }
             return result;
         }
@@ -750,7 +768,6 @@ namespace SmokeNote.Client
                         else
                         {
                             MediaPlayerHelper.PlaySound(currentSoundPath, true);
-
                         }
                         isManulStopSound = !isManulStopSound;
                     }
@@ -766,5 +783,30 @@ namespace SmokeNote.Client
 
 
         #endregion
+    }
+    public class DataCommands
+
+    {
+
+        private static RoutedUICommand requery;
+
+        static DataCommands()
+
+        {
+
+            InputGestureCollection inputs = new InputGestureCollection();
+
+            inputs.Add(new KeyGesture(Key.G, ModifierKeys.Control, "Ctrl+G"));
+
+            requery = new RoutedUICommand(
+         "Requery", "Requery", typeof(DataCommands), inputs);
+
+        }
+
+        public static RoutedUICommand Requery
+        {
+            get { return requery; }
+        }
+
     }
 }

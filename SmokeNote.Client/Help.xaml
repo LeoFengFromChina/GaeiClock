@@ -9,16 +9,16 @@
     <Grid>
         <Label Content="打开/关闭声音：" HorizontalAlignment="Left" Margin="181,67,0,0" VerticalAlignment="Top"/>
         <Label Content="Ctrl+F1" HorizontalAlignment="Left" Margin="285,67,0,0" VerticalAlignment="Top"/>
-        <Label Content="开始：" HorizontalAlignment="Left" Margin="181,98,0,0" VerticalAlignment="Top"/>
+        <Label Content="开始/暂停：" HorizontalAlignment="Left" Margin="181,98,0,0" VerticalAlignment="Top"/>
         <Label Content="Ctrl+F2" HorizontalAlignment="Left" Margin="285,98,0,0" VerticalAlignment="Top"/>
-        <Label Content="暂停：" HorizontalAlignment="Left" Margin="181,129,0,0" VerticalAlignment="Top"/>
-        <Label Content="Ctrl+F3" HorizontalAlignment="Left" Margin="285,129,0,0" VerticalAlignment="Top"/>
-        <Label Content="结束：" HorizontalAlignment="Left" Margin="181,160,0,0" VerticalAlignment="Top"/>
-        <Label Content="Ctrl+F4" HorizontalAlignment="Left" Margin="285,160,0,0" VerticalAlignment="Top"/>
-        <Label Content="显示/隐藏：" HorizontalAlignment="Left" Margin="182,191,0,0" VerticalAlignment="Top"/>
-        <Label Content="Ctrl+F5" HorizontalAlignment="Left" Margin="286,191,0,0" VerticalAlignment="Top"/>
-        <Label Content="退出：" HorizontalAlignment="Left" Margin="181,222,0,0" VerticalAlignment="Top"/>
-        <Label Content="Ctrl+F6" HorizontalAlignment="Left" Margin="285,222,0,0" VerticalAlignment="Top"/>
+        <!--<Label Content="暂停：" HorizontalAlignment="Left" Margin="181,129,0,0" VerticalAlignment="Top"/>
+        <Label Content="Ctrl+F3" HorizontalAlignment="Left" Margin="285,129,0,0" VerticalAlignment="Top"/>-->
+        <Label Content="结束：" HorizontalAlignment="Left" Margin="181,127,0,0" VerticalAlignment="Top"/>
+        <Label Content="Ctrl+F4" HorizontalAlignment="Left" Margin="285,127,0,0" VerticalAlignment="Top"/>
+        <Label Content="显示/隐藏：" HorizontalAlignment="Left" Margin="182,158,0,0" VerticalAlignment="Top"/>
+        <Label Content="Ctrl+F5" HorizontalAlignment="Left" Margin="286,158,0,0" VerticalAlignment="Top"/>
+        <Label Content="退出：" HorizontalAlignment="Left" Margin="181,189,0,0" VerticalAlignment="Top"/>
+        <Label Content="Ctrl+F6" HorizontalAlignment="Left" Margin="285,189,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

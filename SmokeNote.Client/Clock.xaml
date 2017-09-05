@@ -29,14 +29,14 @@
             <DoubleAnimation From=".4" To="1" Duration="0:0:.5" BeginTime="0:0:0" Storyboard.TargetProperty="Opacity"/>
             <DoubleAnimation From="1" To=".4" Duration="0:0:.5" BeginTime="0:0:.5" Storyboard.TargetProperty="Opacity"/>
         </Storyboard>
-        <ContextMenu x:Key="ContextMenu">
+        <!--<ContextMenu x:Key="ContextMenu">
             <MenuItem Name="Start" Header="开始" Click="MenuItem_Click" />
             <MenuItem Name="Stop"  Header="暂停" Click="MenuItem_Click" />
             <MenuItem Name="End"  Header="结束" Click="MenuItem_Click" />
             <MenuItem Name="Config"  Header="设置" Click="MenuItem_Click" />
             <MenuItem Name="Files"  Header="文档" Click="MenuItem_Click" />
             <MenuItem Name="Exit"  Header="退出" Click="MenuItem_Click" />
-        </ContextMenu>
+        </ContextMenu>-->
     </Window.Resources>
     <Grid Background="Transparent" x:Name="mainGrid" >
         <Border Background="{DynamicResource Orange}" Name="MainBorder" CornerRadius="8" BorderBrush="Gray" BorderThickness=".5">

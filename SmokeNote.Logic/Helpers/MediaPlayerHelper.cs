@@ -23,12 +23,14 @@ namespace SmokeNote.Logic.Helpers
                 _isPlaying = value;
             }
         }
+        private static string currentFileName = "";
         public static void PlaySound(string fileName, bool isLooping)
         {
             if (!File.Exists(fileName))
             {
                 return;
             }
+            currentFileName = fileName;
             if (player != null)
             {
                 player.Stop();
