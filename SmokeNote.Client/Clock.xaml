@@ -63,6 +63,9 @@
                 </Grid>
             </StackPanel>
             <Label Margin="-6,0,0,0" Name="lbl_Click" Content="05:00" FontSize="64" FontWeight="Bold" Padding="0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="White" Width="213"></Label>
+
+            <Image x:Name="sound"  Source="Assets/Images/sound.png" Width="16" Height="100" Margin="-42,0,0,0" VerticalAlignment="Bottom"></Image>
+            <Line x:Name="StopLine" Visibility="Hidden" X1="13" Y1="76" X2="28" Y2="87" Stroke="Red" StrokeThickness="3" Margin="-42,0,0,0"></Line>
         </ToolBarPanel>
     </Grid>
 </Window>

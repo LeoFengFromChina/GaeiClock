@@ -47,13 +47,6 @@ namespace SmokeNote.Client
 
             aMenu.Items.Add(StartMenu);
 
-            //MenuItem StopMenu = new MenuItem();
-            //StopMenu.Header = "暂停";
-            //StopMenu.Name = "Stop";
-
-            //StopMenu.Click += MenuItem_Click;
-            //aMenu.Items.Add(StopMenu);
-
             MenuItem EndMenu = new MenuItem();
             EndMenu.Header = "结束";
             EndMenu.Name = "End";
@@ -134,19 +127,21 @@ namespace SmokeNote.Client
         }
         private void SlideShowEnd(PowerPoint.Presentation Pres)
         {
+            if (!pptFilePaht.Equals(Pres.FullName))
+                return;
             Stop();
         }
 
         private void SlideShowBegin(PowerPoint.SlideShowWindow Wn)
         {
+            if (!pptFilePaht.Equals(Wn.Presentation.FullName))
+                return;
             START = false;
             Start();
         }
 
         private void Clock_Closing(object sender, CancelEventArgs e)
         {
-            //slideShow.Application.Quit();
-            //KillProcess();
             SetBackVolume();
         }
 
@@ -281,15 +276,25 @@ namespace SmokeNote.Client
         Microsoft.Office.Interop.PowerPoint.Application PPTApplication;
         private void OpenPPT(string pptPath)
         {
-            PPTApplication = new Microsoft.Office.Interop.PowerPoint.Application();
-            //以非只读方式打开,方便操作结束后保存.  
-            Presentation PPTPresentation = PPTApplication.Presentations.Open(pptPath,
-                MsoTriState.msoFalse, MsoTriState.msoFalse, MsoTriState.msoCTrue);
-            slideShow = PPTPresentation.SlideShowSettings;
-            //slideShow.Run();
-            slideShow.Application.Activate();
-            slideShow.Application.SlideShowBegin += new PowerPoint.EApplication_SlideShowBeginEventHandler(SlideShowBegin);
-            slideShow.Application.SlideShowEnd += new PowerPoint.EApplication_SlideShowEndEventHandler(SlideShowEnd);
+            try
+            {
+                PPTApplication = null;
+                PPTApplication = new Microsoft.Office.Interop.PowerPoint.Application();
+                //以非只读方式打开,方便操作结束后保存.  
+                Presentation PPTPresentation = PPTApplication.Presentations.Open(pptPath,
+                    MsoTriState.msoFalse, MsoTriState.msoFalse, MsoTriState.msoCTrue);
+                slideShow = null;
+                slideShow = PPTPresentation.SlideShowSettings;
+                //slideShow.Run();
+                slideShow.Application.Activate();
+                slideShow.Application.SlideShowBegin += new PowerPoint.EApplication_SlideShowBeginEventHandler(SlideShowBegin);
+                slideShow.Application.SlideShowEnd += new PowerPoint.EApplication_SlideShowEndEventHandler(SlideShowEnd);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("系统更需要先清除缓存，请先退出系统，在重新启动计时器。");
+            }
         }
         private void KillProcess()
         {
@@ -320,7 +325,7 @@ namespace SmokeNote.Client
             }));
             if (!isStop)
             {
-                isManulStopSound = false;
+                //isManulStopSound = false;
                 startTime = DateTime.Now;
                 if (std != null)
                     std.Stop();
@@ -349,7 +354,7 @@ namespace SmokeNote.Client
         private void End()
         {
             START = false;
-            isManulStopSound = false;
+            //isManulStopSound = false;
             dtimer.Stop();
             SecondCount = 0;
             isStop = false;
@@ -368,6 +373,7 @@ namespace SmokeNote.Client
                 System.Windows.Application.Current.Shutdown(-1);
             }
         }
+        string pptFilePaht = string.Empty;
         private void FileItem_Click(object sender, RoutedEventArgs e)
         {
             #region 打开新文档，就等于重新开始了==End后了
@@ -376,11 +382,11 @@ namespace SmokeNote.Client
             #endregion
 
             ListItem item = ((MenuItem)sender).Tag as ListItem;
-            string filePaht = item.FilePath;
-            if (!string.IsNullOrEmpty(filePaht))
+            pptFilePaht = item.FilePath;
+            if (!string.IsNullOrEmpty(pptFilePaht))
             {
                 //System.Diagnostics.Process.Start(filePaht);
-                OpenPPT(filePaht);
+                OpenPPT(pptFilePaht);
             }
             //isStop = true;
             dtimer.Stop();
@@ -395,19 +401,9 @@ namespace SmokeNote.Client
             {
                 case "Start":
                     {
-                        //if (!START)
-                        //    ((MenuItem)sender).Header = "暂停";
-                        //else
-                        //    ((MenuItem)sender).Header = "开始";
-
                         Start();
                     }
                     break;
-                //case "Stop":
-                //    {
-                //        Stop();
-                //    }
-                //    break;
                 case "End":
                     {
                         #region MyRegion
@@ -463,8 +459,7 @@ namespace SmokeNote.Client
             SecondCount += 1;
 
             this.lbl_Click.Content = GetTimeFormat(SecondCount);
-            if (isManulStopSound)
-                return;//此处暂停是指停止声音，计时继续
+
             int volumeAdd = 0;
             if (IsNow() && !MediaPlayerHelper.isPlaying)
             {
@@ -478,6 +473,8 @@ namespace SmokeNote.Client
                     std.RepeatBehavior = RepeatBehavior.Forever;
                     std.Begin();
                 }
+                if (isManulStopSound)
+                    return;//此处暂停是指停止声音，计时继续
 
                 //int.TryParse(initDic["EqualVolumeAdd"], out volumeAdd);
                 //VolumeUp(volumeAdd / 2);
@@ -721,7 +718,23 @@ namespace SmokeNote.Client
             // 注册热键
             InitHotKey();
         }
-        bool isManulStopSound = false;
+        private bool _isManulStopSound = false;
+        bool isManulStopSound
+        {
+            get { return _isManulStopSound; }
+            set
+            {
+                _isManulStopSound = value;
+                if (_isManulStopSound)
+                {
+                    StopLine.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    StopLine.Visibility = Visibility.Hidden;
+                }
+            }
+        }
         /// <summary>
         /// 窗体回调函数，接收所有窗体消息的事件处理函数
         /// </summary>
@@ -746,12 +759,12 @@ namespace SmokeNote.Client
                     }
                     else if (sid == m_HotKeySettings[EHotKeySetting.Pause])
                     {
-                        isManulStopSound = false;
+                        //isManulStopSound = false;
                         Stop();
                     }
                     else if (sid == m_HotKeySettings[EHotKeySetting.Stop])
                     {
-                        isManulStopSound = false;
+                        //isManulStopSound = false;
                         End();
                     }
                     else if (sid == m_HotKeySettings[EHotKeySetting.Start])
@@ -760,16 +773,17 @@ namespace SmokeNote.Client
                     }
                     else if (sid == m_HotKeySettings[EHotKeySetting.StopSound])
                     {
-                        if (!isManulStopSound && MediaPlayerHelper.isPlaying)
+                        if (!isManulStopSound)
                         {
                             //isStop = true;
                             MediaPlayerHelper.Stop();
                         }
-                        else
+                        else if (!isStop)
                         {
                             MediaPlayerHelper.PlaySound(currentSoundPath, true);
                         }
                         isManulStopSound = !isManulStopSound;
+                        StopLine.Visibility = isManulStopSound ? Visibility.Visible : Visibility.Hidden;
                     }
                     else if (sid == m_HotKeySettings[EHotKeySetting.Exit])
                     {
